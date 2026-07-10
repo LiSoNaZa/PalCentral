@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #0f172a;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ================= MAC-STYLE SCROLLBARS ================= */
+
+/* Definiert die Breite und den Hintergrund des Scroll-Tunnels */
+::-webkit-scrollbar {
+  width: 8px;  /* Schön schmal wie auf dem Mac */
+  height: 8px; /* Für horizontale Scrollbars */
+}
+
+/* Der Hintergrund der Scrollbar (Track) bleibt komplett transparent */
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+/* Der bewegliche Balken (Thumb) */
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.2); /* Sehr dezentes Slate-Grau */
+  border-radius: 9999px;               /* Maximal abgerundet */
+  border: 2px solid transparent;        /* Erzeugt einen unsichtbaren Puffer */
+  background-clip: padding-box;         /* Sorgt dafür, dass der Radius perfekt greift */
+  transition: background-color 0.2s ease;
+}
+
+/* Wenn man mit der Maus über die scrollbare Box fährt (Hover) */
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.45); /* Wird etwas sichtbarer beim Hover auf dem Element */
+  background-clip: padding-box;
+}
+
+/* Wenn man direkt den Balken zieht */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.7) !important; /* Richtig knackig dunkel beim Ziehen */
+  background-clip: padding-box;
+}
+
+/* Für Firefox (unterstützt leider keine feinen Hover-Animationen per CSS, aber die Form) */
+@supports (scrollbar-width: thin) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 116, 139, 0.3) transparent;
+  }
+}

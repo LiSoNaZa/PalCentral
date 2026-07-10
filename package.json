@@ -1,0 +1,49 @@
+{
+  "name": "PalCentral",
+  "author": "LiSoNaZa",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "build": {
+    "appId": "de.lisonaza.palcentral",
+    "productName": "PalCentral",
+    "directories": {
+      "output": "dist_electron"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "icon": "src/assets/pal_icon.png"
+    },
+    "win": {
+      "icon": "src/assets/pal_icon.png"
+    },
+    "linux": {
+      "icon": "src/assets/pal_icon.png"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && electron-builder --win --mac --linux",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.2",
+    "solid-js": "^1.9.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.2",
+    "autoprefixer": "^10.5.2",
+    "electron": "^41.7.1",
+    "tailwindcss": "^4.3.2",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1",
+    "vite-plugin-electron": "^1.1.0",
+    "vite-plugin-electron-renderer": "^1.0.0",
+    "vite-plugin-solid": "^2.11.12"
+  }
+}
