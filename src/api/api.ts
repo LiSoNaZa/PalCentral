@@ -1,5 +1,5 @@
 import { credentials } from "../store/store";
-import type { PalworldGameDataResponse, Player, ServerInfoData, ServerMetrics, ServerSettings } from "./models";
+import type { PalworldGameDataResponse, Player, PlayerResponse, ServerInfoData, ServerMetrics, ServerSettings } from "./models";
 
 const apiPrefix: string = '/v1/api';
 
@@ -38,7 +38,7 @@ export const PalworldAPI = {
     return res.json();
   },
 
-  async getPlayers(): Promise<Player[]> {
+  async getPlayers(): Promise<PlayerResponse> {
     const res = await fetch(`${getBaseUrl()}/players`, {
       method: 'GET',
       headers: {

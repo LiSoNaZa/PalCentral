@@ -65,7 +65,7 @@ export const AppAuth = {
 
       setServerInfoData(newInfos);
       setMetricsData(newMetrics);
-      setPlayersData(newPlayers);
+      setPlayersData(newPlayers?.players || []);
       setServerSettingsData(newSettings);
       setLastUpdated(new Date().toLocaleTimeString());
       
