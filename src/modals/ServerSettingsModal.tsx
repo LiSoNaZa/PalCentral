@@ -62,7 +62,7 @@ export function SettingsModal(props: SettingsModalProps) {
                         {String(value).toUpperCase()}
                       </span>
                     ) : (
-                      <span class="text-blue-300 font-bold break-all">{String(value)}</span>
+                      <span class="text-blue-300 font-bold break-all">{String(value)}</span>//TODO: Round server settings
                     )}
                   </span>
                 </div>
