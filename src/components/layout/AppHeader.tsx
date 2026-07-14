@@ -20,21 +20,29 @@ export function AppHeader() {
         </h1>
       </div>
 
-      <div class="flex items-center space-x-4">
-        <div class="text-sm text-slate-400 font-mono hidden sm:block">
-          Server:{" "}
-          <span class="text-blue-400">
-            {!isConnected() ? "None" : `${credentials().ip}:${credentials().port}`}
-          </span>
-          &nbsp;— API:{" "}
-          <span class={apiStatus() === "connected" ? "text-emerald-400" : "text-rose-400"}>
-            {apiStatus() === "connected"
-              ? "Connected"
-              : apiStatus() === "connecting"
-                ? "Connecting..."
-                : "Offline"}
-          </span>
-          <span class="text-xs text-slate-600 ml-3">Sync: {lastUpdated()}</span>
+      <div class="flex items-center justify-end space-x-4 flex-1 ml-3">
+        <div class="text-xs sm:text-sm text-slate-400 font-mono flex text-right flex-col flex-1 lg:flex-row justify-end flex-no-wrap">
+          <div>
+            <span class="hidden sm:inline">
+              Server:&nbsp;
+            </span>
+            <span class="text-blue-400">
+              {!isConnected() ? "None" : `${credentials().ip}:${credentials().port}`}
+            </span>
+          </div>
+          <div>
+            <span class="hidden lg:inline">
+            &nbsp;— API:&nbsp;
+            </span>
+            <span class="hidden sm:inline" classList={{ "text-emerald-400": apiStatus() === "connected", "text-rose-400" : apiStatus() !== "connected"}}>
+              {apiStatus() === "connected"
+                ? "Connected"
+                : apiStatus() === "connecting"
+                  ? "Connecting..."
+                  : "Offline"}
+            </span>
+            <span class="text-xs text-slate-600 ml-3">Sync: {lastUpdated()}</span>
+          </div>
         </div>
         <Show when={isConnected()}>
           <Button variant="disconnect" onClick={() => AppAuth.disconnect()}>

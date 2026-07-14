@@ -63,42 +63,44 @@ export function PlayerRow(props: PlayerRowProps) {
             <span class="text-[11px] text-slate-400 font-mono">({props.player.accountName})</span>
           </div>
           
-          <div class="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] font-mono text-slate-500 mt-0.5">
-            <span class="truncate">UID: <span class="text-slate-400">{props.player.playerId}</span></span>
-            <span class="hidden md:inline text-slate-700">|</span>
-            <span class="truncate">IP: <span class="text-slate-400">{props.player.ip}</span></span>
+          <div class="flex flex-col gap-x-3 gap-y-0.5 text-[11px] font-mono text-slate-500 mt-0.5">
+            <span class="truncate">UID:&nbsp;<span class="text-slate-400">{props.player.playerId}</span></span>
+            <span class="truncate">IP:&nbsp;<span class="text-slate-400">{props.player.ip}</span></span>
+            <span class="truncate">Buildings:&nbsp;<span class="text-slate-400">{props.player.building_count}</span></span>
           </div>
         </div>
       </div>
 
-      <div class="flex items-center space-x-2 shrink-0 self-end sm:self-auto">
-        <span class={`px-2 py-0.5 font-mono text-[10px] rounded-md border ${
-          props.player.ping < 50 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-          props.player.ping < 120 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
-          'bg-rose-500/10 text-rose-400 border-rose-500/20'}`}>
-          {props.player.ping}ms
-        </span>
-        
-        <span class="px-2 py-0.5 bg-slate-900 border border-slate-800 text-slate-400 font-mono text-[10px] rounded-md">
-          {formatLocation(props.player.location_x, props.player.location_y)}
-        </span>
-      </div>
+      <div>
+        <div class="flex items-center space-x-2 shrink-0 self-end sm:self-auto mb-2">
+          <span class={`px-2 py-0.5 font-mono text-[10px] rounded-md border ${
+            props.player.ping < 50 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+            props.player.ping < 120 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+            'bg-rose-500/10 text-rose-400 border-rose-500/20'}`}>
+            {props.player.ping.toFixed(0)}ms
+          </span>
+          
+          <span class="px-2 py-0.5 bg-slate-900 border border-slate-800 text-slate-400 font-mono text-[10px] rounded-md">
+            {formatLocation(props.player.location_x, props.player.location_y)}
+          </span>
+        </div>
 
-      <div class="flex space-x-2 shrink-0 justify-end border-t border-slate-800/40 pt-2 sm:pt-0 sm:border-none">
-        <button 
-          onClick={() => setModalType("kick")} 
-          disabled={props.disabled || apiStatus() !== 'connected'}
-          class="px-3 py-1 text-xs rounded-lg transition font-semibold bg-amber-600/10 hover:bg-amber-600/30 text-amber-400 border border-amber-500/20 disabled:opacity-30 disabled:cursor-not-allowed"
-        >
-          Kick
-        </button>
-        <button 
-          onClick={() => setModalType("ban")} 
-          disabled={props.disabled || apiStatus() !== 'connected'}
-          class="px-3 py-1 text-xs rounded-lg transition font-semibold bg-rose-600/10 hover:bg-rose-600/30 text-rose-400 border border-rose-500/20 disabled:opacity-30 disabled:cursor-not-allowed"
-        >
-          Ban
-        </button>
+        <div class="flex space-x-2 shrink-0 justify-between border-t border-slate-800/40 pt-2 sm:pt-0 sm:border-none">
+          <button 
+            onClick={() => setModalType("kick")} 
+            disabled={props.disabled || apiStatus() !== 'connected'}
+            class="px-3 py-1 text-xs rounded-lg transition font-semibold bg-amber-600/10 hover:bg-amber-600/30 text-amber-400 border border-amber-500/20 disabled:opacity-30 disabled:cursor-not-allowed flex-1"
+          >
+            Kick
+          </button>
+          <button 
+            onClick={() => setModalType("ban")} 
+            disabled={props.disabled || apiStatus() !== 'connected'}
+            class="px-3 py-1 text-xs rounded-lg transition font-semibold bg-rose-600/10 hover:bg-rose-600/30 text-rose-400 border border-rose-500/20 disabled:opacity-30 disabled:cursor-not-allowed flex-1"
+          >
+            Ban
+          </button>
+        </div>
       </div>
 
       <Show when={modalType() !== null}>

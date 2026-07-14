@@ -18,7 +18,7 @@ export function DashboardCard(props: CardProps) {
         </h2>
         {props.extraHeaderElement}
       </div>
-      <div class="flex-1 overflow-y-auto pr-1 min-h-0 space-y-2">
+      <div class="flex-1 overflow-y-auto min-h-0 space-y-2">
         {props.subtitle && (
           <p class="text-[10px] text-slate-600 shrink-0 font-mono">{props.subtitle}</p>
         )}

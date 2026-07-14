@@ -17,7 +17,7 @@ function App() {
       <AppModals />
       <AppHeader />
 
-      <div class="flex-1 flex flex-col md:grid md:grid-cols-12 gap-4 p-4 min-h-0 overflow-y-auto md:overflow-hidden">
+      <div class="flex-1 flex flex-col grid grid-cols-12 gap-4 p-4 min-h-0 overflow-y-auto lg:overflow-hidden">
         <ServerSidebar />
         <PlayerListPanel />
         <ModerationSidebar />

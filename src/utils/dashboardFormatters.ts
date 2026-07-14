@@ -10,8 +10,8 @@ export function formatServerInfo(): DataListItem[] {
   return [
     { label: "Server Name", value: info.servername, colorClass: "text-blue-400 font-sans" },
     { label: "Version", value: info.version },
-    { label: "World GUID", value: info.worldguid },
-    { label: "Description", value: info.description, colorClass: "text-slate-400 font-sans text-[11px]" },
+    { label: "World GUID", value: info.worldguid, colorClass: 'text-[11px]', type: 'newLine' },
+    { label: "Description", value: info.description, colorClass: "font-sans text-[11px]", type: 'newLine' },
   ];
 }
 

@@ -119,9 +119,9 @@ export function ModerationSidebar() {
   };
 
   return (
-    <aside class="col-span-3 flex flex-col gap-4 shrink-0 md:shrink md:min-h-0">
-      <DashboardCard title="Announce Message">
-        <div class="space-y-2 flex flex-col h-full">
+    <aside class="col-span-12 lg:col-span-3 flex flex-col md:flex-row lg:flex-col gap-4 shrink-0 lg:shrink h-[900px] md:h-[300px] lg:min-h-0 lg:h-full">
+      <DashboardCard title="Announce Message" class="flex-1">
+        <div class="flex-1 space-y-2 flex flex-col h-full">
           <FormTextarea
             disabled={apiStatus() !== "connected" || isMessageTransmitting()}
             placeholder={offlinePlaceholder("Broadcast text to all players...")}
@@ -141,8 +141,8 @@ export function ModerationSidebar() {
         </div>
       </DashboardCard>
 
-      <DashboardCard title="Unban Player">
-        <div class="space-y-2">
+      <DashboardCard title="Unban Player" class="flex-1">
+        <div class="space-y-2 flex-1">
           <FormInput
             type="text"
             disabled={apiStatus() !== "connected" || isUnbanTransmitting()}
@@ -162,7 +162,7 @@ export function ModerationSidebar() {
         </div>
       </DashboardCard>
 
-      <DashboardCard title="Server Maintenance" titleColorClass="text-rose-500" class="h-[350px] md:h-auto">
+      <DashboardCard title="Server Maintenance" titleColorClass="text-rose-500" class="flex-1 md:flex-2 min-h-0 min-w-0">
         <div class="space-y-3 mt-1">
           <MaintenanceAction title="Save World State">
             <Button
