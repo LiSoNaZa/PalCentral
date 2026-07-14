@@ -65,8 +65,7 @@ export const AppAuth = {
 
       setServerInfoData(newInfos);
       setMetricsData(newMetrics);
-      // setPlayersData(newPlayers?.players || []);
-      setPlayersData([{ip: 'test', accountName: 'Max mustermann', building_count: 2, level: 2, location_x: 3347563, location_y: 332937646, name: 'Max', ping: 49.2367527642, playerId: 'xxxxxxxxxxxxxxxxxxxx', userId: 'xxxxxxxx'}]);
+      setPlayersData(newPlayers?.players || []);
       setServerSettingsData(newSettings);
       setLastUpdated(new Date().toLocaleTimeString());
       
