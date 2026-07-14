@@ -28,6 +28,10 @@ export interface Player {
   building_count: number;
 }
 
+export interface PlayerResponse {
+  players: Player[]
+}
+
 export interface ServerInfoData {
   version: string;
   servername: string;

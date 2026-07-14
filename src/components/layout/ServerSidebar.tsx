@@ -24,14 +24,14 @@ export function ServerSidebar() {
         <GameDataModal onClose={() => setIsGameDataOpen(false)} />
       </Show>
 
-      <aside class="col-span-3 flex flex-col gap-4 shrink-0 md:shrink md:min-h-0 h-full">
-        <DashboardCard title="Server Info" class="flex-2 min-h-0 overflow-y-auto">
+      <aside class="col-span-12 lg:col-span-3 flex flex-col md:flex-row lg:flex-col gap-4 shrink-0 lg:shrink h-[900px] md:h-[300px] lg:min-h-0 lg:h-full">
+        <DashboardCard title="Server Info" class="flex-1 min-h-0 overflow-y-auto">
           <DataList items={formatServerInfo()} />
         </DashboardCard>
 
-        <DashboardCard title="Live Metrics" class="flex-2 min-h-0 flex flex-col h-full">
+        <DashboardCard title="Live Metrics" class="flex-1 min-h-0 flex flex-col h-full">
           <div class="h-[100%] flex flex-col">
-            <div class="flex-1 overflow-y-auto min-h-0 pr-1 mac-scrollbar">
+            <div class="flex-1 overflow-y-auto min-h-0 mac-scrollbar">
               <DataList items={formatMetrics()} />
             </div>
 
@@ -50,7 +50,7 @@ export function ServerSidebar() {
 
         <DashboardCard
           title="Server Settings"
-          class="flex-1 min-h-0 flex flex-col"
+          class="flex-1 md:flex-2 lg:flex-1 min-h-0 min-w-0 flex flex-col"
           extraHeaderElement={
             <Button
               variant="header"

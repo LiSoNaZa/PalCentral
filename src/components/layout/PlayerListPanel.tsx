@@ -5,7 +5,7 @@ import { apiStatus, playersData } from "../../store/store";
 
 export function PlayerListPanel() {
   return (
-    <main class="col-span-6 flex flex-col min-h-0 h-full">
+    <main class="col-span-12 lg:col-span-6 flex flex-col lg:min-h-0 h-full order-first md:order-none">
       <DashboardCard
         title="Player List & Moderation"
         extraHeaderElement={
@@ -15,7 +15,7 @@ export function PlayerListPanel() {
         }
         class="flex-1 flex flex-col min-h-0"
       >
-        <div class="flex-1 overflow-y-auto pr-1 space-y-2 mt-2 min-h-0">
+        <div class="flex-1 overflow-y-auto space-y-2 mt-2 min-h-0">
           <Show
             when={apiStatus() === "connected" && playersData().length > 0}
             fallback={
