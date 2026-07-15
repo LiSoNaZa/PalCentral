@@ -20,7 +20,7 @@ export interface Player {
   userId: string;
   accountName: string;
   playerId: string;
-  ip: string;
+  iP: string;
   ping: number;
   location_x: number;
   location_y: number;

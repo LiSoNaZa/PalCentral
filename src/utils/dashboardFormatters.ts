@@ -1,9 +1,10 @@
 import type { DataListItem } from "../components/DataList";
-import { apiStatus, metricsData, serverInfoData, serverSettingsData } from "../store/store";
+import { formatNumber, isNumeric } from "../helper";
+import { appState } from "../store/store";
 
 export function formatServerInfo(): DataListItem[] {
-  const info = serverInfoData();
-  if (!info || apiStatus() === "error") {
+  const info = appState.serverInfoData;
+  if (!info || appState.apiStatus === "error") {
     return [{ label: "Status", value: "No data available", colorClass: "text-rose-400" }];
   }
 
@@ -16,8 +17,8 @@ export function formatServerInfo(): DataListItem[] {
 }
 
 export function formatMetrics(): DataListItem[] {
-  const data = metricsData();
-  if (!data || apiStatus() === "error") {
+  const data = appState.metricsData;
+  if (!data || appState.apiStatus === "error") {
     return [{ label: "Status", value: "Connection offline", colorClass: "text-rose-400" }];
   }
 
@@ -43,10 +44,11 @@ export function formatMetrics(): DataListItem[] {
 }
 
 export function previewSettings(): DataListItem[] {
-  const settings = serverSettingsData();
-  if (!settings || apiStatus() === "error") return [];
+  const settings = appState.serverSettingsData;
+  if (!settings || appState.apiStatus === "error") return [];
   return Object.entries(settings).map(([key, value]) => ({
     label: key,
-    value: String(value),
+    value: isNumeric(value) ? formatNumber(value as number) : String(value),
   }));
 }
+

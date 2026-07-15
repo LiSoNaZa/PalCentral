@@ -1,5 +1,5 @@
 import { createSignal, Show, onMount } from "solid-js";
-import { AppAuth, credentials, isConnected, apiStatus } from "../store/store";
+import { AppAuth, appState } from "../store/store";
 
 export function CredentialsModal() {
   const [ip, setIp] = createSignal("");
@@ -9,7 +9,7 @@ export function CredentialsModal() {
   const [errorMessage, setErrorMessage] = createSignal("");
 
   onMount(() => {
-    const current = credentials();
+    const current = appState.credentials;
     if (current.ip) setIp(current.ip);
     if (current.port) setPort(current.port);
     if (current.username) setUsername(current.username);
@@ -33,11 +33,11 @@ export function CredentialsModal() {
     }
   };
 
-  const isConnecting = () => apiStatus() === 'connecting';
+  const isConnecting = () => appState.apiStatus === 'connecting';
 
   return (
     <div class={`fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm transition-all duration-300 ${
-      !isConnected() ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+      !appState.isConnected ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
     }`}>
       <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
         <h3 class="text-lg font-bold text-slate-200 mb-1">Connect to Palworld Server</h3>

@@ -1,6 +1,6 @@
 import { createSignal, createMemo, For, Show, onMount } from "solid-js";
 import { PalworldAPI, type CharacterActor, type PalBoxActor, type PalworldGameDataResponse } from "../api";
-import { apiStatus } from "../store/store";
+import { appState } from "../store/store";
 import { showToast } from "../store/toast";
 
 interface GameDataModalProps {
@@ -12,7 +12,7 @@ export function GameDataModal(props: GameDataModalProps) {
   const [isLoading, setIsLoading] = createSignal(false);
 
   const loadGameData = async () => {
-    if (apiStatus() !== "connected") return;
+    if (appState.apiStatus !== "connected") return;
     setIsLoading(true);
     try {
       const response = await PalworldAPI.getGameData();
@@ -58,7 +58,7 @@ export function GameDataModal(props: GameDataModalProps) {
           </div>
           <div class="flex items-center space-x-2">
             <button
-              disabled={isLoading() || apiStatus() !== "connected"}
+              disabled={isLoading() || appState.apiStatus !== "connected"}
               onClick={loadGameData}
               class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition disabled:opacity-40 flex items-center justify-center"
               title="Refresh Data"
