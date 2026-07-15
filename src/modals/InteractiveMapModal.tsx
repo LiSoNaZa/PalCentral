@@ -61,7 +61,7 @@ export function InteractiveMapModal(props: InteractiveMapModalProps) {
         maxBoundsViscosity: 1.0,
       });
 
-      L.tileLayer('/map_tiles/{z}/{x}/{y}.png', {
+      L.tileLayer('map_tiles/{z}/{x}/{y}.png', {
         bounds: bounds,
         noWrap: true,
         maxNativeZoom: 6,    
@@ -214,15 +214,15 @@ export function InteractiveMapModal(props: InteractiveMapModalProps) {
 
   const loadFastTravelPoints = () => {
     return loadStaticPOIs<FastTravelPoint>({
-      url: '/data/json/fast_travel_points.json',
+      url: 'data/json/fast_travel_points.json',
       group: fastTravelGroup,
-      iconUrl: '/images/map/fast_travel.webp',
+      iconUrl: 'images/map/fast_travel.webp',
       errorMsg: "Can't load fast travel points",
       minZoom: 3,
       createPopupHtml: (point) => `
         <div class="text-slate-100 font-sans p-1">
           <h4 class="font-bold border-b border-slate-700 pb-1 mb-1.5 text-sm flex items-center gap-2">
-            <img src="/images/map/fast_travel.webp" class="h-4 w-4" />
+            <img src="images/map/fast_travel.webp" class="h-4 w-4" />
             ${point.localized_name}
           </h4>
           <div class="space-y-1 text-xs text-slate-300">
@@ -236,9 +236,9 @@ export function InteractiveMapModal(props: InteractiveMapModalProps) {
 
   const loadDungeons = () => {
     return loadStaticPOIs<FastTravelPoint>({
-      url: '/data/json/dungeons.json',
+      url: 'data/json/dungeons.json',
       group: dungeonsGroup,
-      iconUrl: '/images/map/dungeon.webp',
+      iconUrl: 'images/map/dungeon.webp',
       errorMsg: "Can't load dungeons",
       minZoom: 4
     });
@@ -259,7 +259,7 @@ export function InteractiveMapModal(props: InteractiveMapModalProps) {
       }`}
       onClick={props.onClose}
     >
-      <div class="flex flex-col bg-slate-900 border border-slate-800 w-[85vw] max-w-[1920px] h-[85vw] max-h-[1080px] rounded-xl shadow-2xl overflow-hidden m-4 transform transition-all duration-300" onClick={(e) => e.stopPropagation()}>
+      <div class="flex flex-col bg-slate-900 border border-slate-800 w-[85vw] max-w-[1920px] h-[85vh] max-h-[1080px] rounded-xl shadow-2xl overflow-hidden m-4 transform transition-all duration-300" onClick={(e) => e.stopPropagation()}>
         
         <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800">
           <div class="flex items-center gap-2">

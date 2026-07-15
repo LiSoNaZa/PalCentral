@@ -28,7 +28,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && electron-builder --win --mac --linux",
+    "build": "vite build && npx electron-builder --win --mac --linux",
     "preview": "vite preview"
   },
   "dependencies": {
