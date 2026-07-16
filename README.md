@@ -14,7 +14,7 @@ A modern, fast, and responsive web dashboard to manage your Palworld Dedicated S
 * **In-Game Broadcasts:** Send global announcement messages to all active players.
 * **Dynamic Settings Search:** View and filter all 60+ server configuration variables instantly with a built-in search bar.
 * **Clean Native UX:** Mac-style custom scrollbars (even on Windows) and sleek toast notifications.
-* **Interactive Live Map:** A high-performance, real-time map displaying exact player positions.
+* **Interactive Live Map:** A high-performance, real-time map displaying live exact player positions and provide a follor player function.
 
 ---
 
