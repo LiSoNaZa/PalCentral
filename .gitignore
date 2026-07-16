@@ -13,6 +13,7 @@ dist-electron
 dist_electron
 dist-ssr
 *.local
+public/img_lib
 
 # Editor directories and files
 .vscode/*

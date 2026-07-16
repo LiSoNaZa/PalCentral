@@ -2,15 +2,17 @@ import { createSignal, Show } from "solid-js";
 import { DashboardCard } from "../DashboardCard";
 import { DataList } from "../DataList";
 import { Button } from "../ui/Button";
-import { apiStatus, serverSettingsData } from "../../store/store";
+import { appState } from "../../store/store";
 import { formatMetrics, formatServerInfo, previewSettings } from "../../utils/dashboardFormatters";
 import { SettingsModal } from "../../modals/ServerSettingsModal";
 import { GameDataModal } from "../../modals/GameDataModal";
+import { InteractiveMapModal } from "../../modals/InteractiveMapModal";
 
 const WORLD_EXPLORER_ENABLED = false;
 
 export function ServerSidebar() {
   const [isSettingsOpen, setIsSettingsOpen] = createSignal(false);
+  const [isInteractiveMapOpen, setIsInteractiveMapOpen] = createSignal(false);
   const [isGameDataOpen, setIsGameDataOpen] = createSignal(false);
 
   return (
@@ -18,14 +20,27 @@ export function ServerSidebar() {
       <SettingsModal
         isOpen={isSettingsOpen()}
         onClose={() => setIsSettingsOpen(false)}
-        settings={serverSettingsData()}
+        settings={appState.serverSettingsData}
+      />
+      <InteractiveMapModal
+        isOpen={isInteractiveMapOpen()}
+        onClose={() => setIsInteractiveMapOpen(false)}
+        players={appState.playersData}
       />
       <Show when={isGameDataOpen()}>
         <GameDataModal onClose={() => setIsGameDataOpen(false)} />
       </Show>
 
       <aside class="col-span-12 lg:col-span-3 flex flex-col md:flex-row lg:flex-col gap-4 shrink-0 lg:shrink h-[900px] md:h-[300px] lg:min-h-0 lg:h-full">
-        <DashboardCard title="Server Info" class="flex-1 min-h-0 overflow-y-auto">
+        <DashboardCard title="Server Info" class="flex-1 min-h-0 overflow-y-auto" extraHeaderElement={
+            <Button
+              variant="header"
+              disabled={appState.apiStatus !== "connected"}
+              onClick={() => setIsInteractiveMapOpen(true)}
+            >
+              Open Map
+            </Button>
+          }>
           <DataList items={formatServerInfo()} />
         </DashboardCard>
 
@@ -38,7 +53,7 @@ export function ServerSidebar() {
             <Show when={WORLD_EXPLORER_ENABLED}>
               <Button
                 variant="primary"
-                disabled={apiStatus() !== "connected"}
+                disabled={appState.apiStatus !== "connected"}
                 onClick={() => setIsGameDataOpen(true)}
                 class="w-full mt-3 font-semibold shrink-0 border border-blue-500/20 disabled:border-transparent"
               >
@@ -54,7 +69,7 @@ export function ServerSidebar() {
           extraHeaderElement={
             <Button
               variant="header"
-              disabled={apiStatus() !== "connected"}
+              disabled={appState.apiStatus !== "connected"}
               onClick={() => setIsSettingsOpen(true)}
             >
               View all
@@ -62,7 +77,7 @@ export function ServerSidebar() {
           }
         >
           <Show
-            when={apiStatus() === "connected"}
+            when={appState.apiStatus === "connected"}
             fallback={
               <div class="text-center py-4 text-xs text-slate-500 italic">
                 Settings locked while offline

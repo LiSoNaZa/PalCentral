@@ -1,6 +1,6 @@
 import { createSignal, Show } from "solid-js";
 import type { Player } from "../api";
-import { AppActions, apiStatus } from "../store/store";
+import { AppActions, appState } from "../store/store";
 import { showToast } from "../store/toast";
 
 interface PlayerRowProps {
@@ -64,9 +64,15 @@ export function PlayerRow(props: PlayerRowProps) {
           </div>
           
           <div class="flex flex-col gap-x-3 gap-y-0.5 text-[11px] font-mono text-slate-500 mt-0.5">
-            <span class="truncate">UID:&nbsp;<span class="text-slate-400">{props.player.playerId}</span></span>
-            <span class="truncate">IP:&nbsp;<span class="text-slate-400">{props.player.ip}</span></span>
-            <span class="truncate">Buildings:&nbsp;<span class="text-slate-400">{props.player.building_count}</span></span>
+            <Show when={props.player.playerId}>
+              <span class="truncate">UID:&nbsp;<span class="text-slate-400">{props.player.playerId}</span></span>
+            </Show>
+            <Show when={props.player.iP}>
+              <span class="truncate">IP:&nbsp;<span class="text-slate-400">{props.player.iP}</span></span>
+            </Show>
+            <Show when={props.player.building_count !== undefined}>
+              <span class="truncate">Buildings:&nbsp;<span class="text-slate-400">{props.player.building_count}</span></span>
+            </Show>
           </div>
         </div>
       </div>
@@ -88,14 +94,14 @@ export function PlayerRow(props: PlayerRowProps) {
         <div class="flex space-x-2 shrink-0 justify-between border-t border-slate-800/40 pt-2 sm:pt-0 sm:border-none">
           <button 
             onClick={() => setModalType("kick")} 
-            disabled={props.disabled || apiStatus() !== 'connected'}
+            disabled={props.disabled || appState.apiStatus !== 'connected'}
             class="px-3 py-1 text-xs rounded-lg transition font-semibold bg-amber-600/10 hover:bg-amber-600/30 text-amber-400 border border-amber-500/20 disabled:opacity-30 disabled:cursor-not-allowed flex-1"
           >
             Kick
           </button>
           <button 
             onClick={() => setModalType("ban")} 
-            disabled={props.disabled || apiStatus() !== 'connected'}
+            disabled={props.disabled || appState.apiStatus !== 'connected'}
             class="px-3 py-1 text-xs rounded-lg transition font-semibold bg-rose-600/10 hover:bg-rose-600/30 text-rose-400 border border-rose-500/20 disabled:opacity-30 disabled:cursor-not-allowed flex-1"
           >
             Ban

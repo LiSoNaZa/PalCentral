@@ -1,15 +1,15 @@
-import { credentials } from "../store/store";
+import { appState } from "../store/store";
 import type { PalworldGameDataResponse, Player, PlayerResponse, ServerInfoData, ServerMetrics, ServerSettings } from "./models";
 
 const apiPrefix: string = '/v1/api';
 
 const getBaseUrl = () => {
-  const creds = credentials();
+  const creds = appState.credentials;
   return `http://${creds.ip}:${creds.port}${apiPrefix}`;
 };
 
 const getAuthHeader = () => {
-  const creds = credentials();
+  const creds = appState.credentials;
   return `Basic ${btoa(`${creds.username}:${creds.password}`)}`;
 };
 

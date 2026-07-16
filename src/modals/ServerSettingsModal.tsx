@@ -1,5 +1,6 @@
 import { createSignal, For, Show } from "solid-js";
 import type { ServerSettings } from "../api";
+import { formatNumber, isNumeric } from "../helper";
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -62,7 +63,7 @@ export function SettingsModal(props: SettingsModalProps) {
                         {String(value).toUpperCase()}
                       </span>
                     ) : (
-                      <span class="text-blue-300 font-bold break-all">{String(value)}</span>//TODO: Round server settings
+                      <span class="text-blue-300 font-bold break-all">{isNumeric(value) ? formatNumber(value as number) : String(value)}</span>
                     )}
                   </span>
                 </div>

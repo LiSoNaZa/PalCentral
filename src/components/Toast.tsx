@@ -1,10 +1,10 @@
 import { For } from "solid-js";
-import { toasts } from "../store/toast";
+import { toastState } from "../store/toast";
 
 export function ToastContainer() {
   return (
     <div class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
-      <For each={toasts()}>
+      <For each={toastState.toasts}>
         {(toast) => (
           <div
             class={`p-3 rounded-xl border shadow-xl flex items-center justify-between text-xs font-medium pointer-events-auto animate-fade-in transition-all duration-300 ${

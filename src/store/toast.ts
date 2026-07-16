@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createStore, produce } from "solid-js/store";
 
 export interface Toast {
   id: number;
@@ -6,17 +6,18 @@ export interface Toast {
   type: "success" | "error" | "info";
 }
 
-const [toasts, setToasts] = createSignal<Toast[]>([]);
-let toastId = 0;
+export const [toastState, setToastState] = createStore<{ toasts: Toast[] }>({ toasts: [] });
 
-export { toasts };
+let toastId = 0;
 
 export const showToast = (message: string, type: Toast["type"] = "info") => {
   const id = ++toastId;
   
-  setToasts((prev) => [...prev, { id, message, type }]);
+  setToastState("toasts", produce((toasts) => {
+    toasts.push({ id, message, type });
+  }));
 
   setTimeout(() => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
+    setToastState("toasts", (toasts) => toasts.filter((t) => t.id !== id));
   }, 4000);
 };
