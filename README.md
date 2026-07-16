@@ -14,6 +14,7 @@ A modern, fast, and responsive web dashboard to manage your Palworld Dedicated S
 * **In-Game Broadcasts:** Send global announcement messages to all active players.
 * **Dynamic Settings Search:** View and filter all 60+ server configuration variables instantly with a built-in search bar.
 * **Clean Native UX:** Mac-style custom scrollbars (even on Windows) and sleek toast notifications.
+* **Interactive Live Map:** A high-performance, real-time map displaying live exact player positions and provide a follor player function.
 
 ---
 
@@ -21,7 +22,8 @@ A modern, fast, and responsive web dashboard to manage your Palworld Dedicated S
 
 * **🎮 Hybrid RCON Support:** Fallback and alternative connection method using RCON for servers where the REST API cannot be exposed.
 * **🖥️ Multi-Server Management:** Easily switch between multiple saved Palworld servers from a sidebar without logging out and in again.
-* **📍 Interactive Live Map:** A high-performance, real-time map displaying exact player positions.
+* **📍 Live Map extension:** Add various improvements and more POI to the live map.
+* ~~**📍 Interactive Live Map:** A high-performance, real-time map displaying exact player positions.~~ (Umgesetzt in Version 1.1)
 
 ---
 
@@ -32,6 +34,7 @@ A modern, fast, and responsive web dashboard to manage your Palworld Dedicated S
 * **Language:** TypeScript
 * **Build Tool:** Vite
 * **Desktop-Framework:** Electron (Transforms the web dashboard into a native cross-platform desktop application)
+* **Map-Library:** Leaflet
 
 ---
 

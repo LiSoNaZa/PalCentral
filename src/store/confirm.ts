@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 
 interface ConfirmOptions {
   title: string;
@@ -9,12 +9,12 @@ interface ConfirmOptions {
   onClose?: () => Promise<void> | void;
 }
 
-export const [confirmData, setConfirmData] = createSignal<ConfirmOptions | null>(null);
+export const [confirmState, setConfirmState] = createStore<{ data: ConfirmOptions | null }>({ data: null });
 
 export function showConfirm(options: ConfirmOptions) {
-  setConfirmData(options);
+  setConfirmState("data", options);
 }
 
 export function closeConfirm() {
-  setConfirmData(null);
+  setConfirmState("data", null);
 }

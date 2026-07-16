@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-07-15
+
+### Feature
+* **Interactive Live Map:** Implement a live map that shows the live player positions.
+* **Live Map extension:** Add various POI to live map. (more in the future)
+* **Follow on map:** Implement a function to follor players on the live Map.
+
+### Fixed
+* **Number value problems in JS:** Round printed number values so JS can't mess up the rendered number with massive decimals.
+
+### Rework
+* **Solid.JS Best Practice:** Implement a live map that shows the live player positions.
+
+---
+
 ## [1.0.1] - 2026-07-14
 
 ### Fixed

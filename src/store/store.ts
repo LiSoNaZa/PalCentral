@@ -1,21 +1,33 @@
-import { createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import { PalworldAPI, type PalworldGameDataResponse, type Player, type ServerCredentials, type ServerInfoData, type ServerMetrics, type ServerSettings } from "../api";
 
 export type ApiStatus = 'connected' | 'disconnected' | 'connecting' | 'error';
 
 const emptyCreds: ServerCredentials = { ip: "", port: "8212", username: "", password: "" };
 
-export const [credentials, setCredentials] = createSignal<ServerCredentials>(emptyCreds);
-export const [apiStatus, setApiStatus] = createSignal<ApiStatus>('disconnected');
-export const [isConnected, setIsConnected] = createSignal<boolean>(false);
-export const [lastUpdated, setLastUpdated] = createSignal<string>("Never");
+interface AppState {
+  credentials: ServerCredentials;
+  apiStatus: ApiStatus;
+  isConnected: boolean;
+  lastUpdated: string;
+  serverInfoData: ServerInfoData | null;
+  metricsData: ServerMetrics | null;
+  playersData: Player[];
+  serverSettingsData: ServerSettings | null;
+  gameData: PalworldGameDataResponse | null;
+}
 
-export const [serverInfoData, setServerInfoData] = createSignal<ServerInfoData | null>(null);
-export const [metricsData, setMetricsData] = createSignal<ServerMetrics | null>(null);
-export const [playersData, setPlayersData] = createSignal<Player[]>([]);
-export const [serverSettingsData, setServerSettingsData] = createSignal<ServerSettings | null>(null);
-
-export const [gameData, setGameData] = createSignal<PalworldGameDataResponse | null>(null);
+export const [appState, setAppState] = createStore<AppState>({
+  credentials: emptyCreds,
+  apiStatus: 'disconnected',
+  isConnected: false,
+  lastUpdated: "Never",
+  serverInfoData: null,
+  metricsData: null,
+  playersData: [],
+  serverSettingsData: null,
+  gameData: null,
+});
 
 let pollingInterval: number | null = null;
 
@@ -29,31 +41,35 @@ export const AppAuth = {
   },
 
   async validateAndConnect(creds: ServerCredentials): Promise<boolean> {
-    setApiStatus('connecting');
-    setCredentials(creds);
+    setAppState("apiStatus", 'connecting');
+    setAppState("credentials", creds);
 
     try {
       const info = await PalworldAPI.getInfo();
       
-      setServerInfoData(info);
+      setAppState("serverInfoData", info);
       localStorage.setItem("palworld_creds", JSON.stringify(creds));
-      setApiStatus('connected');
-      setIsConnected(true);
+      setAppState({
+        apiStatus: 'connected',
+        isConnected: true,
+      });
 
       this.fetchLiveSnapshot();
       this.startPolling();
       return true;
     } catch (e) {
       console.error(e);
-      setCredentials(emptyCreds);
-      setApiStatus('error');
+      setAppState({
+        credentials: emptyCreds,
+        apiStatus: 'error',
+      });
       this.stopPolling();
       return false;
     }
   },
 
   async fetchLiveSnapshot() {
-    if (!credentials().ip) return;
+    if (!appState.credentials.ip) return;
 
     try {
       const [newInfos, newMetrics, newPlayers, newSettings] = await Promise.all([
@@ -63,16 +79,18 @@ export const AppAuth = {
         PalworldAPI.getServerSettings()
       ]);
 
-      setServerInfoData(newInfos);
-      setMetricsData(newMetrics);
-      setPlayersData(newPlayers?.players || []);
-      setServerSettingsData(newSettings);
-      setLastUpdated(new Date().toLocaleTimeString());
+      setAppState({
+        serverInfoData: newInfos,
+        metricsData: newMetrics,
+        playersData: newPlayers?.players || [],
+        serverSettingsData: newSettings,
+        lastUpdated: new Date().toLocaleTimeString(),
+      });
       
-      if (apiStatus() === 'error') setApiStatus('connected');
+      if (appState.apiStatus === 'error') setAppState("apiStatus", 'connected');
     } catch (e) {
       console.error("Polling failed:", e);
-      setApiStatus('error');
+      setAppState("apiStatus", 'error');
     }
   },
 
@@ -92,21 +110,23 @@ export const AppAuth = {
 
   disconnect() {
     this.stopPolling();
-    setCredentials(emptyCreds);
-    setServerInfoData(null);
-    setMetricsData(null);
-    setPlayersData([]);
-    setServerSettingsData(null);
-    setLastUpdated("Never");
+    setAppState({
+      credentials: emptyCreds,
+      serverInfoData: null,
+      metricsData: null,
+      playersData: [],
+      serverSettingsData: null,
+      lastUpdated: "Never",
+      apiStatus: 'disconnected',
+      isConnected: false,
+    });
     localStorage.removeItem("palworld_creds");
-    setApiStatus('disconnected');
-    setIsConnected(false);
   }
 };
 
 export const AppActions = {
   async broadcastMessage(message: string): Promise<boolean> {
-    if (!message.trim() || apiStatus() !== 'connected') return false;
+    if (!message.trim() || appState.apiStatus !== 'connected') return false;
     
     try {
       await PalworldAPI.sendAnnouncement(message.trim());
@@ -118,7 +138,7 @@ export const AppActions = {
   },
 
   async unbanPlayer(userId: string): Promise<boolean> {
-    if (!userId.trim() || apiStatus() !== 'connected') return false;
+    if (!userId.trim() || appState.apiStatus !== 'connected') return false;
     
     try {
       await PalworldAPI.unbanPlayer(userId.trim());
@@ -130,7 +150,7 @@ export const AppActions = {
   },
 
   async saveWorld(): Promise<boolean> {
-    if (apiStatus() !== 'connected') return false;
+    if (appState.apiStatus !== 'connected') return false;
     
     try {
       await PalworldAPI.saveWorld();
@@ -142,7 +162,7 @@ export const AppActions = {
   },
 
   async shutdownServer(waitTime: number, message: string): Promise<boolean> {
-    if (waitTime == undefined || !message.trim() || apiStatus() !== 'connected') return false;
+    if (waitTime == undefined || !message.trim() || appState.apiStatus !== 'connected') return false;
     
     try {
       await PalworldAPI.shutdownWorld(waitTime, message);
@@ -154,7 +174,7 @@ export const AppActions = {
   },
 
   async forceShutdownServer(): Promise<boolean> {
-    if (apiStatus() !== 'connected') return false;
+    if (appState.apiStatus !== 'connected') return false;
     
     try {
       await PalworldAPI.forceStopServer();

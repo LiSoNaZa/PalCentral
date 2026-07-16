@@ -4,7 +4,7 @@ import { MaintenanceAction } from "../MaintenanceAction";
 import { Button } from "../ui/Button";
 import { FormInput } from "../ui/FormInput";
 import { FormTextarea } from "../ui/FormTextarea";
-import { AppActions, apiStatus } from "../../store/store";
+import { AppActions, appState } from "../../store/store";
 import { showConfirm } from "../../store/confirm";
 import { showToast } from "../../store/toast";
 
@@ -22,7 +22,7 @@ export function ModerationSidebar() {
   const [isServerStopTransmitting, setIsServerStopTransmitting] = createSignal(false);
 
   const offlinePlaceholder = (online: string) =>
-    apiStatus() === "connected" ? online : "Unavailable — Server Offline";
+    appState.apiStatus === "connected" ? online : "Unavailable — Server Offline";
 
   const handleSendAnnouncement = async () => {
     if (!messageText().trim() || isMessageTransmitting()) return;
@@ -123,7 +123,7 @@ export function ModerationSidebar() {
       <DashboardCard title="Announce Message" class="flex-1">
         <div class="flex-1 space-y-2 flex flex-col h-full">
           <FormTextarea
-            disabled={apiStatus() !== "connected" || isMessageTransmitting()}
+            disabled={appState.apiStatus !== "connected" || isMessageTransmitting()}
             placeholder={offlinePlaceholder("Broadcast text to all players...")}
             value={messageText()}
             onInput={(e) => setMessageText(e.currentTarget.value)}
@@ -131,7 +131,7 @@ export function ModerationSidebar() {
           />
           <Button
             variant="primary"
-            disabled={apiStatus() !== "connected" || !messageText().trim() || isMessageTransmitting()}
+            disabled={appState.apiStatus !== "connected" || !messageText().trim() || isMessageTransmitting()}
             onClick={handleSendAnnouncement}
             loading={isMessageTransmitting()}
             loadingText="Sending..."
@@ -145,14 +145,14 @@ export function ModerationSidebar() {
         <div class="space-y-2 flex-1">
           <FormInput
             type="text"
-            disabled={apiStatus() !== "connected" || isUnbanTransmitting()}
+            disabled={appState.apiStatus !== "connected" || isUnbanTransmitting()}
             placeholder={offlinePlaceholder("PlayerID")}
             value={unbanUserId()}
             onInput={(e) => setUnbanUserId(e.currentTarget.value)}
           />
           <Button
             variant="secondary"
-            disabled={apiStatus() !== "connected" || !unbanUserId().trim() || isUnbanTransmitting()}
+            disabled={appState.apiStatus !== "connected" || !unbanUserId().trim() || isUnbanTransmitting()}
             onClick={handleUnbanPlayer}
             loading={isUnbanTransmitting()}
             loadingText="Processing..."
@@ -168,7 +168,7 @@ export function ModerationSidebar() {
             <Button
               variant="maintenance-success"
               onClick={handleSave}
-              disabled={apiStatus() !== "connected"}
+              disabled={appState.apiStatus !== "connected"}
             >
               Trigger Auto-Save
             </Button>
@@ -178,7 +178,7 @@ export function ModerationSidebar() {
             <div class="flex flex-col space-y-2">
               <FormTextarea
                 rows={3}
-                disabled={apiStatus() !== "connected" || isShutdownTransmitting()}
+                disabled={appState.apiStatus !== "connected" || isShutdownTransmitting()}
                 placeholder="Shutdown message..."
                 value={shutdownMsg()}
                 onInput={(e) => setShutdownMsg(e.currentTarget.value)}
@@ -186,7 +186,7 @@ export function ModerationSidebar() {
               <div class="flex space-x-2">
                 <input
                   type="number"
-                  disabled={apiStatus() !== "connected" || isShutdownTransmitting()}
+                  disabled={appState.apiStatus !== "connected" || isShutdownTransmitting()}
                   placeholder="Sec"
                   value={shutdownSec()}
                   onInput={(e) => setShutdownSec(Number(e.currentTarget.value))}
@@ -196,7 +196,7 @@ export function ModerationSidebar() {
                   variant="maintenance-warning-inline"
                   onClick={handleGracefulShutdown}
                   disabled={
-                    apiStatus() !== "connected" ||
+                    appState.apiStatus !== "connected" ||
                     isShutdownTransmitting() ||
                     !shutdownMsg().trim() ||
                     shutdownSec() == undefined
@@ -212,7 +212,7 @@ export function ModerationSidebar() {
             <Button
               variant="maintenance-danger"
               onClick={handleForceStop}
-              disabled={apiStatus() !== "connected"}
+              disabled={appState.apiStatus !== "connected"}
             >
               Kill Process Immediately
             </Button>
